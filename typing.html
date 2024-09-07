@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>蜗牛打字练习WEB</title>
+  <style>
+    .light {
+      --bg-color: #fff;
+      --text-color: #141414;
+    }
+
+    .dark {
+      --bg-color: #141414;
+      --text-color: #fff;
+    }
+
+    body {
+      background: var(--bg-color);
+      color: var(--text-color);
+    }
+
+    .main {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      margin: auto;
+      margin-top: 200px;
+    }
+
+    .tp-area {
+      display: flex;
+      margin-top: 50px;
+    }
+
+    .tp-as {
+      font-weight: 500;
+      font-size: 45px;
+      line-height: 60px;
+      color: rgb(127, 133, 150);
+
+      width: 27px;
+      height: 60px;
+      margin-right: 5px;
+      margin-bottom: 30px;
+    }
+
+    .tp-head {
+      width: 723px;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 50px;
+      margin-bottom: 10px;
+    }
+
+    .tp-key-container {
+      border: 1px solid rgba(127, 133, 150, 0.4);
+      width: 723px;
+      /* position: fixed;
+      bottom: 30px;
+      left: 0;
+      right: 0;
+      margin: auto; */
+
+      display: flex;
+      flex-wrap: wrap;
+      padding: 15px;
+      background: var(--bg-color);
+      color: var(--text-color);
+    }
+
+    .tp-key {
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(127, 133, 150, 0.4);
+      border-radius: 4px;
+
+      margin-right: 5px;
+      margin-bottom: 5px;
+
+      display: flex;
+      flex-direction: column;
+      font-weight: 500;
+      font-size: 17px;
+
+      -webkit-box-align: center;
+      align-items: center;
+      -webkit-box-pack: center;
+      justify-content: center;
+      line-height: 20px;
+    }
+
+    .tp-key-child {
+      font-size: 14px;
+    }
+
+    .tp-key-press {
+      color: white;
+      background-color: rgb(70, 136, 235);
+    }
+  </style>
+</head>
+
+<body class="light">
+  <div class="main">
+    <div class="tp-head">
+      <span><b>蜗牛打字练习WEB（回车键开始练习）</b></span>
+      <span><label>主题：</label><input type="button" value="亮白 / 暗黑" id="toggle-theme" /></span>
+      <span>正确率：<label id="accuracy"> - </label>%</span>
+      <span>按键速度：<label id="timer"> - </label> 键/分钟</span>
+    </div>
+
+    <div class="tp-key-container">
+      <div id="apostrophe" class="tp-key">
+        <span class="tp-key-child" style="line-height: 28px">~</span><span>`</span>
+      </div>
+      <div id="num1" class="tp-key">
+        <span class="tp-key-child">!</span><span>1</span>
+      </div>
+      <div id="num2" class="tp-key">
+        <span class="tp-key-child">@</span><span>2</span>
+      </div>
+      <div id="num3" class="tp-key">
+        <span class="tp-key-child">#</span><span>3</span>
+      </div>
+      <div id="num4" class="tp-key">
+        <span class="tp-key-child">$</span><span>4</span>
+      </div>
+      <div id="num5" class="tp-key">
+        <span class="tp-key-child">%</span><span>5</span>
+      </div>
+      <div id="num6" class="tp-key">
+        <span class="tp-key-child">^</span><span>6</span>
+      </div>
+      <div id="num7" class="tp-key">
+        <span class="tp-key-child">&</span><span>7</span>
+      </div>
+      <div id="num8" class="tp-key">
+        <span class="tp-key-child">*</span><span>8</span>
+      </div>
+      <div id="num9" class="tp-key">
+        <span class="tp-key-child">(</span><span>9</span>
+      </div>
+      <div id="num0" class="tp-key">
+        <span class="tp-key-child">)</span><span>0</span>
+      </div>
+      <div id="minus" class="tp-key">
+        <span class="tp-key-child">_</span>
+        <span style="line-height: 28px">-</span>
+      </div>
+      <div id="equals" class="tp-key">
+        <span class="tp-key-child">+</span><span>=</span>
+      </div>
+      <div id="backspace" class="tp-key" style="width: 79px; font-size: 14px">
+        <span>Backspace</span>
+      </div>
+
+      <div id="tab" class="tp-key" style="width: 60.5px; font-size: 14px">
+        <span>Tab</span>
+      </div>
+      <div id="q" class="tp-key"><span>Q</span></div>
+      <div id="w" class="tp-key"><span>W</span></div>
+      <div id="e" class="tp-key"><span>E</span></div>
+      <div id="r" class="tp-key"><span>R</span></div>
+      <div id="t" class="tp-key"><span>T</span></div>
+      <div id="y" class="tp-key"><span>Y</span></div>
+      <div id="u" class="tp-key"><span>U</span></div>
+      <div id="i" class="tp-key"><span>I</span></div>
+      <div id="o" class="tp-key"><span>O</span></div>
+      <div id="p" class="tp-key"><span>P</span></div>
+      <div id="letf_square_brackets" class="tp-key tp-key-child">
+        <span>{</span><span>[</span>
+      </div>
+      <div id="right_square_brackets" class="tp-key tp-key-child">
+        <span>}</span><span>]</span>
+      </div>
+      <div id="reverse_slash" class="tp-key tp-key-child" style="width: 60.5px">
+        <span>|</span><span>\</span>
+      </div>
+
+      <div id="capslock" class="tp-key" style="width: 70px; font-size: 14px">
+        <span>CapsLock</span>
+      </div>
+      <div id="a" class="tp-key"><span>A</span></div>
+      <div id="s" class="tp-key"><span>S</span></div>
+      <div id="d" class="tp-key"><span>D</span></div>
+      <div id="f" class="tp-key"><span>F</span></div>
+      <div id="g" class="tp-key"><span>G</span></div>
+      <div id="h" class="tp-key"><span>H</span></div>
+      <div id="j" class="tp-key"><span>J</span></div>
+      <div id="k" class="tp-key"><span>K</span></div>
+      <div id="l" class="tp-key"><span>L</span></div>
+      <div id="semicolon" class="tp-key tp-key-child">
+        <span>:</span><span>;</span>
+      </div>
+      <div id="single_quotation_mark" class="tp-key tp-key-child">
+        <span style="line-height: 28px">"</span><span style="line-height: 15px">'</span>
+      </div>
+      <div id="enter" class="tp-key tp-key-child" style="width: 100px">
+        <span>Enter</span>
+      </div>
+
+      <div id="left_shift" class="tp-key tp-key-child" style="width: 107.5px">
+        <span>Shift</span>
+      </div>
+      <div id="z" class="tp-key"><span>Z</span></div>
+      <div id="x" class="tp-key"><span>X</span></div>
+      <div id="c" class="tp-key"><span>C</span></div>
+      <div id="v" class="tp-key"><span>V</span></div>
+      <div id="b" class="tp-key"><span>B</span></div>
+      <div id="n" class="tp-key"><span>N</span></div>
+      <div id="m" class="tp-key"><span>M</span></div>
+      <div id="comma" class="tp-key tp-key-child">
+        <span>&lt;</span><span>,</span>
+      </div>
+      <div id="period" class="tp-key tp-key-child">
+        <span>&gt;</span><span>.</span>
+      </div>
+      <div id="slash" class="tp-key tp-key-child">
+        <span>?</span><span>/</span>
+      </div>
+      <div id="right_shift" class="tp-key tp-key-child" style="width: 111.5px">
+        <span>Shift</span>
+      </div>
+
+      <div id="left_ctrl" class="tp-key tp-key-child" style="width: 70px">
+        <span>Ctrl</span>
+      </div>
+      <div class="tp-key tp-key-child" style="width: 33px"></div>
+      <div id="left_alt" class="tp-key tp-key-child" style="width: 70px">
+        <span>Alt</span>
+      </div>
+      <div id="space" class="tp-key tp-key-child" style="width: 328px">
+        <span>Space</span>
+      </div>
+      <div id="right_alt" class="tp-key tp-key-child" style="width: 70px">
+        <span>Alt</span>
+      </div>
+      <div class="tp-key tp-key-child" style="width: 33px"></div>
+      <div id="right_ctrl" class="tp-key tp-key-child" style="width: 70px">
+        <span>Ctrl</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    //object
+    const KEYCODE2ID = {
+      8: "backspace",
+      9: "tab",
+      13: "enter",
+      16: "shift",
+      17: "ctrl",
+      18: "alt",
+      20: "capslock",
+      32: "space",
+      48: "num0",
+      49: "num1",
+      50: "num2",
+      51: "num3",
+      52: "num4",
+      53: "num5",
+      54: "num6",
+      55: "num7",
+      56: "num8",
+      57: "num9",
+      65: "a",
+      66: "b",
+      67: "c",
+      68: "d",
+      69: "e",
+      70: "f",
+      71: "g",
+      72: "h",
+      73: "i",
+      74: "j",
+      75: "k",
+      76: "l",
+      77: "m",
+      78: "n",
+      79: "o",
+      80: "p",
+      81: "q",
+      82: "r",
+      83: "s",
+      84: "t",
+      85: "u",
+      86: "v",
+      87: "w",
+      88: "x",
+      89: "y",
+      90: "z",
+      186: "semicolon",
+      187: "equals",
+      188: "comma",
+      189: "minus",
+      190: "period",
+      191: "slash",
+      192: "apostrophe",
+      219: "letf_square_brackets",
+      220: "reverse_slash",
+      221: "right_square_brackets",
+      222: "single_quotation_mark",
+    };
+
+    let switch_number = 0;//是否开始，非零时会开始状态
+    let press_is = false;//按键是否正确
+    let press_obj;//上一次的按键keycode对应的ID
+    let start_time;
+    let end_time;
+    let press_num;//按下按键的总数
+    let press_ok;//按下按键的正确数
+
+    //Event:按钮按下
+    document.addEventListener("keydown", function (e) {
+      e.preventDefault();
+      console.log(e.key.toLocaleLowerCase());
+      console.log(e.keyCode);
+      console.log(KEYCODE2ID[e.keyCode]);
+
+      //回车键：开始练习，开始计时与计按钮数
+      if (e.keyCode === 13 && switch_number === 0) {
+        start_time = new Date().getTime();
+        press_num = 0;
+        press_ok = 1;//回车键开始，会导致总数加1，故再此加1
+        switch_number++;
+        press_obj = getRandomProperty(KEYCODE2ID)
+        document.getElementById(press_obj).classList.add("tp-key-press");
+      }
+
+      //开始练习，且按钮正确，显示下一个按钮
+      if (switch_number === 1) {
+        if (press_obj === KEYCODE2ID[e.keyCode]) {
+          switch (press_obj) {
+            case "shift":
+            case "alt":
+            case "ctrl":
+              document.getElementById("left_" + press_obj).classList.remove("tp-key-press");
+              document.getElementById("right_" + press_obj).classList.remove("tp-key-press");
+              break;
+            default:
+              document.getElementById(press_obj).classList.remove("tp-key-press");
+          }
+          press_ok++;
+          //配置下一个按键
+          press_obj = getRandomProperty(KEYCODE2ID)
+          switch (press_obj) {
+            case "shift":
+            case "alt":
+            case "ctrl":
+              document.getElementById("left_" + press_obj).classList.add("tp-key-press");
+              document.getElementById("right_" + press_obj).classList.add("tp-key-press");
+              break;
+            default:
+              document.getElementById(press_obj).classList.add("tp-key-press");
+          }
+        }
+      }
+      //按钮速度：按下回车键后开始计时，速度=已打字数/已用时间；
+      if (switch_number > 0) {
+        press_num++;//此处加1，开始时的“Enter”也计入其中。
+        end_time = new Date().getTime();
+        //end_time - start_time === 1时，按钮速度存在“60000键/分钟”的情况
+        document.getElementById("timer").innerText =
+          (end_time - start_time === 0 || end_time - start_time === 1) ? 0 : parseInt(press_num / (((end_time - start_time) / 1000 / 60) % 60));
+        console.log(end_time - start_time);
+        document.getElementById("accuracy").innerText = Math.floor(press_ok / press_num * 100);
+      }
+    });
+
+    //主题色切换
+    document.getElementById("toggle-theme").addEventListener("click", () => {
+      document.body.className =
+        document.body.className === "light" ? "dark" : "light";
+    });
+    //函数：随机获取对象中的值
+    function getRandomProperty(obj) {
+      const keys = Object.keys(obj);
+
+      if (keys.length === 0) {
+        throw new Error('Object is empty');
+      }
+      const randomIndex = Math.floor(Math.random() * keys.length);
+      const key = keys[randomIndex];
+      // return { key: key, value: obj[key] };
+      return obj[key];
+    }
+
+  </script>
+</body>
+
+</html>
